@@ -57,7 +57,7 @@
         titleformat={},
         number=\chinese{chapter},
         name={第,章},
-        beforeskip=1\baselineskip,     % 段前1行       
+        beforeskip=-15pt,     % 减少章节标题前的空白，使其靠近版心顶部
         afterskip=1\baselineskip     % 段后1行
     },
     % contentsname 在目录部分手动设置
@@ -204,7 +204,7 @@
 % - "关键词："：小四号黑体，顶格
 % - 关键词内容：小四号宋体，不加粗，单倍行距，中文分号隔开，最后无标点
 \chapter*{}
-\vspace{-2\baselineskip}
+
 \thispagestyle{frontmatterstyle}
 \begin{center}
     {\heiti\zihao{-1}\thesistitle}
@@ -232,7 +232,7 @@
 % - "Keywords:"：小四号Times New Roman加粗，顶格
 % - 关键词内容：小四号Times New Roman，不加粗，英文分号隔开
 \chapter*{}
-\vspace{-2\baselineskip}
+
 \thispagestyle{frontmatterstyle}
 \begin{center}
     {\bfseries\zihao{-1}\thesistitleEN}
@@ -255,7 +255,7 @@
 % - 目录内容：各章节标题，不超过三级，四号字体，不加粗，1.5倍行距
 \pagestyle{frontmatterstyle}
 \chapter*{}
-\vspace{-2\baselineskip}
+
 \thispagestyle{frontmatterstyle}
 \begin{center}
     {\heiti\zihao{3}目~~录}
