@@ -10,10 +10,10 @@
 下载完后 双击ISO文件 点击`install-tl-windows.bat`进行安装
 
 ### 2. 修改论文信息
-使用`gemini 3.0` 哈基米写latex是最好的 将整个main.tex喂给他 让他遵守规范 根据你的项目进行修改即可
+使用`gemini 3.0` 哈基米写latex是最好的 将整个[main.tex](main.tex)喂给他 让他遵守规范 根据你的项目进行修改 将ai写好的内容复制到[main.tex](main.tex)中
 
 ### 3. 编译论文
-双击运行`compile.bat`即可生成PDF
+双击运行`compile.bat`即可根据[main.tex](main.tex)生成PDF
 
 
 ## 更新日志
