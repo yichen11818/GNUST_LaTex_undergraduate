@@ -2,7 +2,7 @@
 
 自行根据`附件1：毕业论文统一格式的规定`进行编写的LaTex文档 可能有部分问题
 
-## how to start
+## 快速开始
 
 ### 1. 安装LaTeX环境
 下载ISO [TeX Live](https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/texlive.iso)
