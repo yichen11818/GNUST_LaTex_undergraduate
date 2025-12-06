@@ -57,7 +57,7 @@
         titleformat={},
         number=\chinese{chapter},
         name={第,章}, 
-        beforeskip=1\baselineskip,     % 段前1行       
+        beforeskip=0.5\baselineskip,     % 段前0.5行       
         afterskip=1\baselineskip,    % 段后1行
         fixskip=true
     },
@@ -96,7 +96,8 @@
 \captionsetup[table]{
     position=top,
     aboveskip=0pt,
-    belowskip=5pt
+    belowskip=5pt,
+    font={heiti,wuhao} % 确保表头也是黑体五号
 }
 
 % 重新定义图表编号格式
@@ -401,6 +402,24 @@
 \end{table}
 
 引用表格示例：如表\ref{tab:heat-exchanger}所示。表与下方正文空一行。
+
+\vspace{\baselineskip}
+
+\begin{table}[htbp]
+    \centering
+    \caption{换热器不同级别损失表}
+    \label{tab:heat-exchanger-2}
+    \begin{tabular}{ccc}
+        \toprule
+        \textbf{换热器} & \textbf{热边压降损失（千卡）} & \textbf{冷边压降损失（千卡）} \\
+        \midrule
+        初级 & 2974.37 & 2931.52 \\
+        次级 & 2924.65 & 3798.76 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+表格示例2说明：上表展示了另一个示例。表头采用黑体五号，英文为Times New Roman五号，居中显示。表与下方正文空一行。
 
 \vspace{\baselineskip}
 
