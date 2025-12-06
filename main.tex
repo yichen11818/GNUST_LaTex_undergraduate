@@ -369,7 +369,7 @@
     % \includegraphics[width=0.6\textwidth]{figures/example.png}
     
     % 临时占位框
-    \fbox{\parbox{0.6\textwidth}{\centering\vspace{4cm}此处为图片位置\\请将图片放入figures文件夹}}
+    % \fbox{\parbox{0.6\textwidth}{\centering\vspace{4cm}此处为图片位置\\请将图片放入figures文件夹}}
     \caption{瀑布模型示意图}
     \label{fig:waterfall}
 \end{figure}
@@ -388,13 +388,14 @@
     \centering
     \caption{换热器不同级别损失表}
     \label{tab:heat-exchanger}
-    \begin{tabular}{ccc}
-        \toprule
+    \begin{tabular}{c|c|c}
+        \hline
         \textbf{换热器} & \textbf{热边压降损失（千卡）} & \textbf{冷边压降损失（千卡）} \\
-        \midrule
+        \hline
         初级 & 2974.37 & 2931.52 \\
+        \hline
         次级 & 2924.65 & 3798.76 \\
-        \bottomrule
+        \hline
     \end{tabular}
 \end{table}
 
@@ -406,13 +407,14 @@
     \centering
     \caption{换热器不同级别损失表}
     \label{tab:heat-exchanger-2}
-    \begin{tabular}{ccc}
-        \toprule
+    \begin{tabular}{c|c|c}
+        \hline
         \textbf{换热器} & \textbf{热边压降损失（千卡）} & \textbf{冷边压降损失（千卡）} \\
-        \midrule
+        \hline
         初级 & 2974.37 & 2931.52 \\
+        \hline
         次级 & 2924.65 & 3798.76 \\
-        \bottomrule
+        \hline
     \end{tabular}
 \end{table}
 
