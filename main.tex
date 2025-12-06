@@ -1,0 +1,680 @@
+% 赣南科技学院毕业论文LaTeX模板
+\documentclass[a4paper,12pt,openany,twoside]{ctexbook}
+
+% 页面设置
+% 要求：上下左右边距2.5/2.5/2.5/2.0cm，页眉1.5cm，页脚1.75cm
+% Word设置：页眉距纸张顶部1.5cm，正文距纸张顶部2.5cm
+% asymmetric: 确保奇偶页使用相同的左右边距（不交换）
+\usepackage[
+    top=2.5cm,           % 上边距2.5cm（正文距纸张顶部）
+    bottom=2.5cm,        % 下边距2.5cm
+    left=2.5cm,          % 左边距2.5cm（所有页面）
+    right=2.0cm,         % 右边距2.0cm（所有页面）
+    headheight=0.5cm,    % 页眉高度（五号字约14bp≈0.5cm）
+    headsep=0.5cm,       % 页眉到正文的距离
+    footskip=0.75cm,     % 正文到页脚的距离
+    asymmetric           % 奇偶页使用相同左右边距
+]{geometry}
+% 说明：
+% - 页眉距纸张顶部 = top - headheight - headsep = 2.5 - 0.5 - 0.5 = 1.5cm ✓
+% - 页脚距纸张底部 = bottom - footskip = 2.5 - 0.75 = 1.75cm ✓
+% - 设置"奇偶页不同"通过twoside选项实现，asymmetric确保边距不交换
+
+% 字体设置
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setCJKmainfont{SimSun}[AutoFakeBold=2.5,ItalicFont=KaiTi]
+\setCJKsansfont{SimHei}[AutoFakeBold=2.5]
+\setCJKmonofont{FangSong}
+
+% 其他必要的包
+\usepackage{graphicx}      % 图片
+\usepackage{amsmath}       % 数学公式
+\usepackage{amssymb}       % 数学符号
+\usepackage{booktabs}      % 表格
+\usepackage{longtable}     % 长表格
+\usepackage{multirow}      % 表格合并
+\usepackage{caption}       % 图表标题
+\usepackage{subcaption}    % 子图
+\usepackage{enumitem}      % 列表
+\usepackage{fancyhdr}      % 页眉页脚
+\usepackage{titlesec}      % 标题格式
+\usepackage{titletoc}      % 目录格式
+\usepackage[hidelinks]{hyperref}  % 超链接
+\usepackage{xcolor}        % 颜色
+\usepackage{listings}      % 代码
+\usepackage{setspace}      % 行距
+\usepackage{indentfirst}   % 首行缩进
+
+% 设置中文段落缩进
+\setlength{\parindent}{2em}
+
+% 章节标题格式设置
+\ctexset{
+    chapter={
+        format={\centering\heiti\zihao{-3}},  % 小三号黑体居中
+        nameformat={},
+        titleformat={},
+        number=\chinese{chapter},
+        name={第,章},
+        beforeskip=1\baselineskip,     % 段前1行       
+        afterskip=1\baselineskip     % 段后1行
+    },
+    % contentsname 在目录部分手动设置
+    listfigurename={插图目录},
+    listtablename={表格目录},
+    section={
+        format={\songti\bfseries\zihao{4}},  % 四号宋体加粗，顶格，段前段后0.5行
+        beforeskip=0.5\baselineskip,
+        afterskip=0.5\baselineskip
+    },
+    subsection={
+        format={\kaishu\bfseries\zihao{4}},  % 四号楷体加粗
+        beforeskip=0.5\baselineskip,
+        afterskip=0.5\baselineskip
+    }
+}
+
+% 图表标题设置（五号黑体）
+\DeclareCaptionFont{heiti}{\heiti}
+\DeclareCaptionFont{wuhao}{\zihao{5}}
+\captionsetup{
+    font={heiti,wuhao},  % 五号黑体
+    labelsep=space,
+    skip=5pt
+}
+\captionsetup[figure]{
+    position=bottom,
+    aboveskip=5pt,
+    belowskip=0pt
+}
+\captionsetup[table]{
+    position=top,
+    aboveskip=0pt,
+    belowskip=5pt
+}
+
+% 重新定义图表编号格式
+\renewcommand{\thefigure}{\thechapter-\arabic{figure}}
+\renewcommand{\thetable}{\thechapter-\arabic{table}}
+\renewcommand{\theequation}{\thechapter-\arabic{equation}}
+
+% 目录格式设置
+% - 各章节标题：四号字体，不加粗，1.5倍行距
+% - 第一级标题（章）：四号黑体，缩进2个全角空格（相对于左边距2.5cm）
+% - 第二级标题（节）：四号宋体，缩进4个全角空格
+% - 第三级标题（小节）：四号楷体，缩进6个全角空格
+% - 题目和页码间用"…………"相连
+% 设置目录右边距，确保遵循全局右边距2.0cm
+\contentsmargin{0pt}
+% 章：左缩进6em（标签起始2em），标签宽4em
+\titlecontents{chapter}[6em]{\heiti\zihao{4}\vspace{6pt}}
+    {\contentslabel[\thecontentslabel\hfill]{4em}}{\hspace{-4em}}{\titlerule*[0.5pc]{.}\contentspage}
+% 节：左缩进6.5em（标签起始4em），标签宽2.5em
+\titlecontents{section}[6.5em]{\songti\zihao{4}}
+    {\contentslabel{2.5em}}{}{\titlerule*[0.5pc]{.}\contentspage}
+% 小节：左缩进9.5em（标签起始6em），标签宽3.5em
+\titlecontents{subsection}[9.5em]{\kaishu\zihao{4}}
+    {\contentslabel{3.5em}}{}{\titlerule*[0.5pc]{.}\contentspage}
+
+% 页眉页脚设置
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[CO]{\songti\zihao{5}赣南科技学院2025届毕业论文}  % 奇数页页眉
+\fancyhead[CE]{\songti\zihao{5}学生姓名：论文题目}  % 偶数页页眉
+\fancyfoot[C]{\zihao{5}\thepage}  % 页码居中
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% 前置部分页面样式（摘要、目录，使用罗马数字页码）
+\fancypagestyle{frontmatterstyle}{
+    \fancyhf{}
+    \fancyhead[CO]{\songti\zihao{5}赣南科技学院2025届毕业论文}
+    \fancyhead[CE]{\songti\zihao{5}学生姓名：论文题目}
+    \fancyfoot[C]{\zihao{5}\Roman{page}}  % 罗马数字页码
+    \renewcommand{\headrulewidth}{0.4pt}
+    \renewcommand{\footrulewidth}{0pt}
+}
+
+% 重新定义plain样式（用于章节首页），使其显示页眉
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyhead[CO]{\songti\zihao{5}赣南科技学院2025届毕业论文}
+    \fancyhead[CE]{\songti\zihao{5}学生姓名：论文题目}
+    \fancyfoot[C]{\zihao{5}\thepage}
+    \renewcommand{\headrulewidth}{0.4pt}
+    \renewcommand{\footrulewidth}{0pt}
+}
+
+% 参考文献设置
+% 使用手动 thebibliography 环境时，不需要 gbt7714 包
+% \usepackage[sort&compress]{gbt7714}
+% \bibliographystyle{gbt7714-numerical}
+
+% 代码列表设置
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    stepnumber=1,
+    numbersep=8pt,
+    breaklines=true,
+    frame=single,
+    xleftmargin=2em,
+    xrightmargin=2em,
+    tabsize=4
+}
+
+% ==================== 论文信息 ====================
+\newcommand{\thesistitle}{基于Spring Boot的图书管理系统的设计与实现}
+\newcommand{\thesissubtitle}{} % 副标题（如果有）
+\newcommand{\thesisauthor}{学生姓名}
+\newcommand{\studentid}{学号}
+\newcommand{\supervisor}{指导教师}
+\newcommand{\college}{学院}
+\newcommand{\major}{专业}
+\newcommand{\classno}{班级}
+\newcommand{\thesisyear}{2025}
+
+% 英文信息
+\newcommand{\thesistitleEN}{The Design and Implementation of a Library Management System Based on Spring Boot}
+\newcommand{\thesissubtitleEN}{}
+\newcommand{\thesisauthorEN}{Student Name}
+\newcommand{\supervisorEN}{Supervisor Name}
+\newcommand{\collegeEN}{College Name}
+\newcommand{\majorEN}{Major Name}
+
+% ==================== 文档开始 ====================
+\begin{document}
+
+% 前置部分（摘要、目录）使用罗马数字页码
+\frontmatter
+\pagestyle{frontmatterstyle}
+\setcounter{page}{1}
+
+% ==================== 中文摘要 ====================
+% 格式要求：
+% - 论文题目：小一号黑体居中，题目较长可分多行书写，单倍行距，与下面内容不空行
+% - "摘  要"：三号黑体居中，"摘"与"要"之间空两格，与下面内容单倍行距
+% - 摘要内容：小四号宋体，20磅行距，首行缩进2字符，400字以内
+% - 与下面内容单倍行距
+% - "关键词："：小四号黑体，顶格
+% - 关键词内容：小四号宋体，不加粗，单倍行距，中文分号隔开，最后无标点
+\chapter*{}
+\vspace{-2\baselineskip}
+\thispagestyle{frontmatterstyle}
+\begin{center}
+    {\heiti\zihao{-1}\thesistitle}
+    \par
+    {\heiti\zihao{3}摘~~要}
+\end{center}
+
+{\songti\zihao{-4}\setlength{\baselineskip}{20pt}
+\setlength{\parindent}{2em}
+\indent 这里是中文摘要内容。摘要一般在400字以内，语言力求精炼。摘要应概括地反映出本论文的主要内容，主要说明本论文的研究目的、内容、方法、成果和结论。要突出本论文的创新之处，语言力求精炼。为了便于文献检索，应在摘要下方另起一行注明论文的关键词。
+}
+
+\vspace{\baselineskip}
+\noindent{\heiti\zihao{-4}关键词：}{\songti\zihao{-4}关键词1；关键词2；关键词3；关键词4；关键词5}
+
+\clearpage
+
+% ==================== 英文摘要 ====================
+% 格式要求：
+% - 英文论文题目：小一号Times New Roman加粗居中，题目较长可分多行书写，与下面内容单倍行距
+%   实词首字母大写，冠词/短介词/并列连词首字母小写，第一个单词首字母大写
+% - "ABSTRACT"：三号Times New Roman加粗居中，与下面内容单倍行距
+% - 摘要内容：小四号Times New Roman，20磅行距，首行缩进4个半角空格
+% - 空1行
+% - "Keywords:"：小四号Times New Roman加粗，顶格
+% - 关键词内容：小四号Times New Roman，不加粗，英文分号隔开
+\chapter*{}
+\vspace{-2\baselineskip}
+\thispagestyle{frontmatterstyle}
+\begin{center}
+    {\bfseries\zihao{-1}\thesistitleEN}
+    \par
+    {\bfseries\zihao{3}ABSTRACT}
+\end{center}
+
+{\zihao{-4}\setlength{\baselineskip}{20pt}
+\hspace{4ex}This is the English abstract. The content should correspond to the Chinese abstract. The abstract should be concise and generally within 400 words.
+}
+
+\vspace{\baselineskip}
+\noindent{\bfseries\zihao{-4}Keywords:} {\zihao{-4}Keyword1; Keyword2; Keyword3; Keyword4; Keyword5}
+
+\clearpage
+
+% ==================== 目录 ====================
+% 格式要求：
+% - "目录"：三号黑体居中，"目"与"录"之间两个半角空格，与下面内容空一行
+% - 目录内容：各章节标题，不超过三级，四号字体，不加粗，1.5倍行距
+\pagestyle{frontmatterstyle}
+\chapter*{}
+\vspace{-2\baselineskip}
+\thispagestyle{frontmatterstyle}
+\begin{center}
+    {\heiti\zihao{3}目~~录}
+\end{center}
+\vspace{0.5\baselineskip}  % 与下面内容空一行
+{
+\makeatletter
+\@starttoc{toc}
+\makeatother
+}
+\clearpage
+
+% ==================== 正文 ====================
+\mainmatter
+\pagestyle{fancy}  % 切换回正常页面样式
+\setcounter{page}{1}  % 正文页码从1开始（阿拉伯数字）
+
+% 修改偶数页页眉为实际信息
+\fancyhead[CE]{\songti\zihao{5}\thesisauthor：\thesistitle}
+
+% 重新定义正文部分的plain样式（章节首页），使其显示正确的页眉
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyhead[CO]{\songti\zihao{5}赣南科技学院2025届毕业论文}
+    \fancyhead[CE]{\songti\zihao{5}\thesisauthor：\thesistitle}
+    \fancyfoot[C]{\zihao{5}\thepage}
+    \renewcommand{\headrulewidth}{0.4pt}
+    \renewcommand{\footrulewidth}{0pt}
+}
+
+\chapter{绪论}
+
+% 设置正文格式：小四号宋体，20磅行距，首行缩进2字符，段前段后0行
+{\songti\zihao{-4}\setlength{\baselineskip}{20pt}\setlength{\parindent}{2em}\setlength{\parskip}{0pt}
+
+这里是正文内容。正文中中文采用小四号宋体，英文采用小四号Times New Roman字体，行距采用固定值20磅，标准字符间距，首行缩进2字符。
+
+\section{课题背景和意义}
+
+这是二级标题的内容（四号宋体加粗，顶格，段前段后间距0.5行）。内容采用小四号宋体，20磅行距，首行缩进2字符。
+
+\subsection{国内研究现状}
+
+这是三级标题的内容（四号楷体加粗，顶格，段前段后间距0.5行）。内容采用小四号宋体，20磅行距，首行缩进2字符。
+
+\section{论文的组织结构}
+
+本论文共分为五章，各章节内容安排如下：
+
+第一章为绪论，介绍了课题的研究背景、意义以及国内外研究现状。
+
+第二章介绍了本系统所使用的相关技术。
+
+第三章详细阐述了系统的需求分析和总体设计方案。
+
+第四章介绍了系统的具体实现过程。
+
+第五章对全文进行总结，并对未来的工作进行展望。
+}
+
+\section{数字编号示例}
+
+正文中的数字编号示例（数字及符号使用Times New Roman体）：
+
+\begin{enumerate}[label=\arabic*.,leftmargin=2em,itemsep=0pt]
+    \item 一级编号，数字加小数点"."加一个空格
+    \item 总体思路说明
+\end{enumerate}
+
+\begin{enumerate}[label=(\arabic*),leftmargin=2.5em,itemsep=0pt]
+    \item 二级编号，英文下的括号(数字)加一个空格
+    \item 工作要求说明
+\end{enumerate}
+
+\begin{enumerate}[label=\arabic*),leftmargin=2.5em,itemsep=0pt]
+    \item 三级编号，数字后跟英文下的括号)再加一个空格
+    \item 集合地点说明
+\end{enumerate}
+
+\begin{enumerate}[label={\heiti ①},leftmargin=2em,itemsep=0pt]
+    \item 四级编号，①加一个空格
+    \item 支持串口虚拟功能
+\end{enumerate}
+
+\begin{enumerate}[label=\Alph*.,leftmargin=2em,itemsep=0pt]
+    \item 五级编号，大写字母加小数点"."加一个空格
+    \item 全面总结
+\end{enumerate}
+
+\begin{enumerate}[label=\alph*.,leftmargin=2em,itemsep=0pt]
+    \item 六级编号，小写字母加小数点"."加一个空格
+    \item 开源技术
+\end{enumerate}
+
+\section{图表公式示例}
+
+\subsection{图片示例}
+
+图片应放置在合适位置，图序及图名居中置于图的下方。图序编号按章内连续编号，格式为"图M-N"，其中M为章号，N为图序号。图注采用五号黑体，居中。
+
+\begin{figure}[htbp]
+    \centering
+    % 将图片放在figures文件夹中，然后取消下面的注释
+    % \includegraphics[width=0.6\textwidth]{figures/example.png}
+    
+    % 临时占位框
+    \fbox{\parbox{0.6\textwidth}{\centering\vspace{4cm}此处为图片位置\\请将图片放入figures文件夹}}
+    \caption{瀑布模型示意图}
+    \label{fig:waterfall}
+\end{figure}
+
+引用图片示例：如图\ref{fig:waterfall}所示，瀑布模型是一种经典的软件开发模型。
+
+图与上方正文之间不空行，图与下方正文空一行。
+
+\vspace{\baselineskip}
+
+\subsection{表格示例}
+
+表序及表名置于表的上方，居中。表序编号按章内连续编号，格式为"表M-N"。表序、表名和表内内容采用五号黑体字。
+
+\begin{table}[htbp]
+    \centering
+    \caption{换热器不同级别损失表}
+    \label{tab:heat-exchanger}
+    \begin{tabular}{ccc}
+        \toprule
+        \textbf{换热器} & \textbf{热边压降损失（千卡）} & \textbf{冷边压降损失（千卡）} \\
+        \midrule
+        初级 & 2974.37 & 2931.52 \\
+        次级 & 2924.65 & 3798.76 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+引用表格示例：如表\ref{tab:heat-exchanger}所示。表与下方正文空一行。
+
+\vspace{\baselineskip}
+
+\subsection{公式示例}
+
+公式编号用括号括起写在右边行末，格式为(M-N)，其中M为章号，N为公式序号。公式中的英文字母要有一行的间距，公式与正文之间不需空行。
+
+质能方程：
+\begin{equation}
+    E = mc^2
+    \label{eq:mass-energy}
+\end{equation}
+
+热力学第一定律：
+\begin{equation}
+    \Delta U = Q - W
+    \label{eq:thermodynamics}
+\end{equation}
+
+引用公式示例：如式(\ref{eq:mass-energy})所示，爱因斯坦的质能方程揭示了质量与能量的关系。
+
+行内公式示例：根据公式 $E=mc^2$ 可知，质量和能量是可以相互转换的。
+
+\chapter{系统技术论述}
+
+{\songti\zihao{-4}\setlength{\baselineskip}{20pt}\setlength{\parindent}{2em}
+
+本章主要介绍系统开发所使用的相关技术，包括开发框架、数据库技术、前端技术等。这些技术的合理运用为系统的高效开发和稳定运行提供了保障。
+
+\section{开发框架介绍}
+
+本系统采用Spring Boot框架进行开发。Spring Boot是Spring家族中的一个全新框架，其设计目的是用来简化Spring应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。
+
+\subsection{Spring Boot特点概述}
+
+Spring Boot具有以下主要特点：
+
+\begin{enumerate}[label=(\arabic*),leftmargin=2.5em,itemsep=0pt]
+    \item 创建独立的Spring应用程序
+    \item 嵌入的Tomcat，无需部署WAR文件
+    \item 简化Maven配置
+    \item 自动配置Spring
+    \item 提供生产就绪型功能
+    \item 绝对没有代码生成和对XML没有要求配置
+\end{enumerate}
+
+\section{数据库技术}
+
+本系统采用MySQL数据库进行数据存储和管理。MySQL是一个关系型数据库管理系统，由瑞典MySQL AB公司开发，目前属于Oracle旗下产品。
+
+\section{前端技术}
+
+前端采用Vue.js框架开发，Vue.js是一套构建用户界面的渐进式框架，易于上手，便于与第三方库或既有项目整合。
+
+}\chapter{系统需求分析与设计}
+
+{\songti\zihao{-4}\setlength{\baselineskip}{20pt}\setlength{\parindent}{2em}
+
+本章对系统进行需求分析，明确系统的功能需求和非功能需求，在此基础上进行系统的总体设计和详细设计。
+
+\section{需求分析}
+
+需求分析是系统开发的基础，通过对用户需求的深入分析，可以明确系统应该具备哪些功能，为后续的设计和实现指明方向。
+
+\section{系统总体设计}
+
+根据需求分析的结果，对系统进行总体架构设计，包括系统的层次结构、模块划分、数据流向等。
+
+\section{数据库设计}
+
+数据库设计是系统设计的重要组成部分，合理的数据库设计可以提高系统的性能和可维护性。
+
+}\chapter{系统实现}
+
+{\songti\zihao{-4}\setlength{\baselineskip}{20pt}\setlength{\parindent}{2em}
+
+本章详细介绍系统各个功能模块的具体实现过程，包括核心代码和关键算法的实现。
+
+\section{用户管理模块实现}
+
+用户管理模块负责系统用户的注册、登录、权限管理等功能。
+
+\section{数据管理模块实现}
+
+数据管理模块实现了对业务数据的增删改查等基本操作。
+
+}\chapter{系统测试}
+
+{\songti\zihao{-4}\setlength{\baselineskip}{20pt}\setlength{\parindent}{2em}
+
+系统测试是保证系统质量的重要环节。本章介绍了系统的测试方案、测试用例以及测试结果。
+
+\section{测试环境}
+
+本系统的测试环境配置如下：操作系统为Windows 10，数据库为MySQL 8.0，浏览器为Chrome最新版本。
+
+\section{功能测试}
+
+对系统的各个功能模块进行了详细的功能测试，测试结果表明系统各项功能均能正常运行。
+
+}\chapter{总结与展望}
+
+{\songti\zihao{-4}\setlength{\baselineskip}{20pt}\setlength{\parindent}{2em}
+
+本文设计并实现了一个基于Spring Boot的图书管理系统。该系统实现了图书信息管理、用户管理、借阅管理等功能，界面友好，操作简便，能够满足中小型图书馆的日常管理需求。
+
+通过本次毕业设计，我掌握了完整的软件开发流程，从需求分析、系统设计、编码实现到测试部署，每个环节都得到了充分的锻炼。同时也深入学习了Spring Boot、Vue.js等主流开发技术，为今后的学习和工作打下了坚实的基础。
+
+由于时间和个人能力有限，系统还存在一些不足之处，有待进一步完善：
+
+\begin{enumerate}[label=(\arabic*),leftmargin=2.5em,itemsep=0pt]
+    \item 系统的性能优化还有提升空间
+    \item 可以增加更多的统计分析功能
+    \item 移动端适配有待加强
+\end{enumerate}
+
+在今后的工作中，我将继续完善系统功能，提升系统性能，使其更加完善和实用。
+
+}
+
+% ==================== 参考文献 ====================
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{参考文献}
+
+\begin{center}
+    {\heiti\zihao{3}参考文献}
+\end{center}
+
+\vspace{\baselineskip}  % 空一行
+
+% 参考文献内容：小四号宋体，20磅行距
+{\songti\zihao{-4}\setlength{\baselineskip}{20pt}
+\begin{thebibliography}{99}
+
+\bibitem{ref1}
+何海浪. 机器人铣削加工轨迹规划与颤振稳定性研究[J]. 计算机应用, 2020, 7(3): 167-173, 186.
+
+\bibitem{ref2}
+严蔚敏. 数据结构（第四版）[M]. 北京: 清华大学出版社, 2019: 234-236.
+
+\bibitem{ref3}
+张三, 李四, 王五. 基于Spring Boot的图书管理系统设计与实现[J]. 计算机工程与应用, 2021, 57(12): 245-250.
+
+\bibitem{ref4}
+Smith J, Johnson M, Williams R. Design and implementation of library management system[J]. Computer Science, 2022, 15(2): 123-135.
+
+\bibitem{ref5}
+赵六. Spring Boot实战[M]. 北京: 机械工业出版社, 2020: 100-150.
+
+\bibitem{ref6}
+Brown A, Davis B. Vue.js in Action[M]. New York: Manning Publications, 2021: 200-250.
+
+\bibitem{ref7}
+孙七. 基于微服务架构的图书管理系统研究[D]. 北京: 北京大学, 2021: 30-45.
+
+\bibitem{ref8}
+Wilson C D. Research on Database Optimization[D]. Boston: MIT, 2020: 50-70.
+
+\bibitem{ref9}
+周八. 软件系统架构设计方法研究[C]. 北京: 电子工业出版社, 2022: 15-20.
+
+\bibitem{ref10}
+Miller E F, Anderson G H. Software Testing Methods[C]. London: IEEE Press, 2021: 80-90.
+
+\bibitem{ref11}
+国家标准化管理委员会. GB/T 7714-2015 信息与文献参考文献著录规则[S]. 北京: 中国标准出版社, 2015.
+
+\bibitem{ref12}
+陈十一. MySQL数据库优化技术研究[J]. 软件学报, 2022, 33(4): 1234-1241.
+
+\bibitem{ref13}
+Thompson R, White S, Black T, et al. Modern web application development[J]. ACM Computing Surveys, 2022, 54(3): 456-480.
+
+\bibitem{ref14}
+刘十二. Java Web开发实战[M]. 上海: 上海科技出版社, 2021: 78-89.
+
+\bibitem{ref15}
+Green P, Blue Q. RESTful API Design[M]. Cambridge: O'Reilly Media, 2020: 150-170.
+
+\end{thebibliography}
+
+\textbf{注意：}参考文献一般不应少于15篇，一般应为近5年的文献。除个别专业外，一般应有5篇以上外文参考文献。作者只写到第三位，余者写"等"，英文作者超过3人写"et al"（斜体）。在正文中要有引用标注，如×××[1]。
+
+}
+
+% ==================== 附录 ====================
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{附录}
+
+\begin{center}
+    {\heiti\zihao{3}附~~录}
+\end{center}
+
+\vspace{\baselineskip}  % 空一行
+
+% 附录内容：字体段落格式与正文要求一致
+{\songti\zihao{-4}\setlength{\baselineskip}{20pt}\setlength{\parindent}{2em}
+
+附录的有无根据说明书（设计）情况而定，内容一般包括正文内不便列出的冗长公式推导、符号说明（含缩写）、计算机程序等，字体段落格式与正文要求一致。附录中有程序源代码的因篇幅限制可酌情考虑内容的序号。
+
+\textbf{需要特别强调：}如无确实必要，不要加附录，论文重复率检测是会检测附录的。
+
+\section*{附录A 核心代码}
+
+以下是系统的核心代码片段：
+
+\begin{lstlisting}[language=Java, caption=用户控制器代码]
+@RestController
+@RequestMapping("/api/user")
+public class UserController {
+    
+    @Autowired
+    private UserService userService;
+    
+    @PostMapping("/login")
+    public Result login(@RequestBody LoginDTO loginDTO) {
+        User user = userService.login(loginDTO);
+        if (user != null) {
+            return Result.success(user);
+        }
+        return Result.error("用户名或密码错误");
+    }
+    
+    @GetMapping("/list")
+    public Result getUserList() {
+        List<User> users = userService.getAllUsers();
+        return Result.success(users);
+    }
+}
+\end{lstlisting}
+
+\section*{附录B 数据库表结构}
+
+以下是系统主要数据表的结构说明：
+
+\textbf{用户表（user）：}存储用户的基本信息，包括用户ID、用户名、密码、邮箱、创建时间等字段。
+
+\textbf{图书表（book）：}存储图书的详细信息，包括图书ID、书名、作者、出版社、ISBN、分类、库存等字段。
+
+\textbf{借阅记录表（borrow\_record）：}存储借阅记录信息，包括记录ID、用户ID、图书ID、借阅时间、归还时间、状态等字段。
+
+\section*{附录C 缩写说明}
+
+\begin{itemize}[leftmargin=2em,itemsep=0pt]
+    \item API: Application Programming Interface，应用程序接口
+    \item DTO: Data Transfer Object，数据传输对象
+    \item MVC: Model-View-Controller，模型-视图-控制器
+    \item ORM: Object-Relational Mapping，对象关系映射
+    \item REST: Representational State Transfer，表现层状态转换
+    \item SQL: Structured Query Language，结构化查询语言
+\end{itemize}
+
+}
+
+% ==================== 致谢 ====================
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{致谢}
+
+\begin{center}
+    {\heiti\zihao{3}致~~谢}
+\end{center}
+
+\vspace{\baselineskip}  % 与内容空一行
+
+% 致谢内容：小四号宋体，20磅行距，首行缩进2字符，限1页
+{\songti\zihao{-4}\setlength{\baselineskip}{20pt}\setlength{\parindent}{2em}
+
+时光荏苒，四年的大学生活即将结束。回首这四年的学习历程，我收获颇丰，这离不开各位老师、同学和家人的帮助与支持。
+
+在此，我要特别感谢我的指导教师李红旗教授和张爱国老师。在整个毕业设计过程中，从选题、开题、研究到论文撰写的各个阶段，李老师和张老师都给予了我悉心的指导和热情的帮助。他们严谨的治学态度、渊博的专业知识和科学的工作方法使我受益匪浅，对我今后的学习和工作产生了深远的影响。
+
+感谢赣南科技学院电子信息工程学院的各位老师，是你们的辛勤付出和谆谆教诲，让我在专业知识和实践能力方面得到了全面的提升。
+
+感谢我的同学们，在这四年的学习生活中，我们相互帮助、共同进步，结下了深厚的友谊。特别感谢我的室友们，你们的陪伴让我的大学生活更加充实和快乐。
+
+感谢我的父母和家人，是你们无私的爱和无条件的支持，让我能够安心学习、顺利完成学业。你们的理解和鼓励是我前进的动力。
+
+最后，感谢所有关心和帮助过我的人！
+
+}
+
+\end{document}
+
