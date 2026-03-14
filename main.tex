@@ -33,6 +33,8 @@
 \usepackage{amssymb}       % 数学符号
 \usepackage{booktabs}      % 表格
 \usepackage{longtable}     % 长表格
+\usepackage{array}         % 表格列格式
+\usepackage{tabularx}      % 自适应表格
 \usepackage{multirow}      % 表格合并
 \usepackage{caption}       % 图表标题
 \usepackage{subcaption}    % 子图
@@ -42,69 +44,74 @@
 \usepackage{titletoc}      % 目录格式
 \usepackage[hidelinks]{hyperref}  % 超链接
 \usepackage{xcolor}        % 颜色
+\usepackage{float}         % 浮动体控制
 \usepackage{listings}      % 代码
 \usepackage{pifont}        % 带圈数字符号
 \usepackage{setspace}      % 行距
 \usepackage{indentfirst}   % 首行缩进
+\usepackage{fvextra}       % 增强代码环境
+\usepackage{etoolbox}      % 宏工具
+
+\let\cleardoublepage\clearpage
+\raggedbottom
+\graphicspath{{figures/}{images/}{generated/figs/}}
 
 % 设置中文段落缩进
 \setlength{\parindent}{2em}
+\setlength{\parskip}{0pt}
+\renewcommand{\arraystretch}{1.2}
 
 % 章节标题格式设置
 \ctexset{
     chapter={
-        format={\centering\heiti\mdseries\zihao{-3}},  % 小三号黑体居中，不加粗
-        nameformat={},
-        titleformat={},
+        format={\centering\heiti\mdseries\zihao{-3}},
         number=\chinese{chapter},
-        name={第,章}, 
-        beforeskip=0\baselineskip,     % 段前1行       
-        afterskip=1\baselineskip,    % 段后1行
-        fixskip=true
+        name={第,章},
+        beforeskip=20pt,
+        afterskip=20pt
     },
     % contentsname 在目录部分手动设置
     listfigurename={插图目录},
     listtablename={表格目录},
     section={
-        format={\songti\bfseries\zihao{4}},  % 四号宋体加粗，顶格，段前段后0.5行
-        beforeskip=0.5\baselineskip,
-        afterskip=0.5\baselineskip,
-        indent=0pt,       % 顶格
-        aftername=\       % 序号后空一格
+        format={\songti\bfseries\zihao{4}},
+        beforeskip=10pt,
+        afterskip=10pt,
+        indent=0pt
     },
     subsection={
-        format={\kaishu\bfseries\zihao{4}},  % 四号楷体加粗，顶格
-        beforeskip=0.5\baselineskip,
-        afterskip=0.5\baselineskip,
-        indent=0pt,       % 顶格
-        aftername=\       % 序号后空一格
+        format={\kaishu\bfseries\zihao{4}},
+        beforeskip=10pt,
+        afterskip=10pt,
+        indent=0pt
+    },
+    subsubsection={
+        format={\songti\bfseries\zihao{-4}},
+        beforeskip=6pt,
+        afterskip=6pt,
+        indent=0pt
     }
 }
 
 % 图表标题设置（五号黑体）
+\counterwithin{figure}{chapter}
+\counterwithin{table}{chapter}
+\counterwithin{equation}{chapter}
+\renewcommand{\thefigure}{\arabic{chapter}-\arabic{figure}}
+\renewcommand{\thetable}{\arabic{chapter}-\arabic{table}}
+\renewcommand{\theequation}{\arabic{chapter}-\arabic{equation}}
+
 \DeclareCaptionFont{heiti}{\heiti}
 \DeclareCaptionFont{wuhao}{\zihao{5}}
+\DeclareCaptionLabelFormat{thesisfigure}{图#2}
+\DeclareCaptionLabelFormat{thesistable}{表#2}
 \captionsetup{
-    font={heiti,wuhao},  % 五号黑体
+    font={heiti,wuhao},
     labelsep=space,
-    skip=5pt
+    skip=6pt
 }
-\captionsetup[figure]{
-    position=bottom,
-    aboveskip=5pt,
-    belowskip=0pt
-}
-\captionsetup[table]{
-    position=top,
-    aboveskip=0pt,
-    belowskip=5pt,
-    font={heiti,wuhao} % 确保表头也是黑体五号
-}
-
-% 重新定义图表编号格式
-\renewcommand{\thefigure}{\thechapter-\arabic{figure}}
-\renewcommand{\thetable}{\thechapter-\arabic{table}}
-\renewcommand{\theequation}{\thechapter-\arabic{equation}}
+\captionsetup[figure]{position=bottom,labelformat=thesisfigure}
+\captionsetup[table]{position=top,labelformat=thesistable,font={heiti,wuhao}}
 
 % 目录格式设置
 % - 各章节标题：四号字体，不加粗，1.5倍行距
@@ -127,8 +134,8 @@
 % 页眉页脚设置
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[CO]{\songti\zihao{5}赣南科技学院2025届毕业论文}  % 奇数页页眉
-\fancyhead[CE]{\songti\zihao{5}学生姓名：论文题目}  % 偶数页页眉
+\fancyhead[CO]{\songti\zihao{5}赣南科技学院2026届毕业论文}  % 奇数页页眉
+\fancyhead[CE]{\songti\zihao{5}\thesisauthor：\thesistitle}  % 偶数页页眉
 \fancyfoot[C]{\zihao{5}\thepage}  % 页码居中
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0pt}
@@ -136,9 +143,9 @@
 % 前置部分页面样式（摘要、目录，使用罗马数字页码）
 \fancypagestyle{frontmatterstyle}{
     \fancyhf{}
-    \fancyhead[CO]{\songti\zihao{5}赣南科技学院2025届毕业论文}
-    \fancyhead[CE]{\songti\zihao{5}学生姓名：论文题目}
-    \fancyfoot[C]{\zihao{5}\Roman{page}}  % 罗马数字页码
+    \fancyhead[CO]{\songti\zihao{5}赣南科技学院2026届毕业论文}
+    \fancyhead[CE]{\songti\zihao{5}\thesisauthor：\thesistitle}
+    \fancyfoot[C]{\zihao{5}\thepage}
     \renewcommand{\headrulewidth}{0.4pt}
     \renewcommand{\footrulewidth}{0pt}
 }
@@ -146,8 +153,8 @@
 % 重新定义plain样式（用于章节首页），使其显示页眉
 \fancypagestyle{plain}{
     \fancyhf{}
-    \fancyhead[CO]{\songti\zihao{5}赣南科技学院2025届毕业论文}
-    \fancyhead[CE]{\songti\zihao{5}学生姓名：论文题目}
+    \fancyhead[CO]{\songti\zihao{5}赣南科技学院2026届毕业论文}
+    \fancyhead[CE]{\songti\zihao{5}\thesisauthor：\thesistitle}
     \fancyfoot[C]{\zihao{5}\thepage}
     \renewcommand{\headrulewidth}{0.4pt}
     \renewcommand{\footrulewidth}{0pt}
@@ -175,6 +182,21 @@
     tabsize=4
 }
 
+\DefineVerbatimEnvironment{codeblock}{Verbatim}{
+    fontsize=\small,
+    breaklines=true,
+    breakanywhere=true,
+    breaksymbolleft={},
+    breaksymbolright={},
+    frame=single,
+    numbers=left,
+    numbersep=6pt,
+    xleftmargin=2em,
+    xrightmargin=1em,
+    obeytabs=true,
+    tabsize=4
+}
+
 % ==================== 论文信息 ====================
 \newcommand{\thesistitle}{基于Spring Boot的图书管理系统的设计与实现}
 \newcommand{\thesissubtitle}{} % 副标题（如果有）
@@ -184,7 +206,8 @@
 \newcommand{\college}{学院}
 \newcommand{\major}{专业}
 \newcommand{\classno}{班级}
-\newcommand{\thesisyear}{2025}
+\newcommand{\thesisyear}{2026}
+\newcommand{\thesisdate}{2026年3月}
 
 % 英文信息
 \newcommand{\thesistitleEN}{The Design and Implementation of a Library Management System Based on Spring Boot}
@@ -198,8 +221,33 @@
 \begin{document}
 
 % 前置部分（摘要、目录）使用罗马数字页码
+\begin{titlepage}
+    \thispagestyle{empty}
+    \begin{center}
+        \vspace*{2cm}
+        {\heiti\zihao{1}赣南科技学院\par}
+        \vspace{1.5cm}
+        {\heiti\zihao{2}本科毕业设计（论文）\par}
+        \vspace{2.5cm}
+        {\heiti\zihao{-1}\thesistitle\par}
+        \vspace{2.5cm}
+        \renewcommand{\arraystretch}{1.8}
+        \begin{tabular}{p{3.5cm}p{8.5cm}}
+            学\hspace{2em}院： & \college \\
+            专\hspace{2em}业： & \major \\
+            班\hspace{2em}级： & \classno \\
+            学\hspace{2em}号： & \studentid \\
+            姓\hspace{2em}名： & \thesisauthor \\
+            指导教师： & \supervisor \\
+            完成时间： & \thesisdate \\
+        \end{tabular}
+        \vfill
+    \end{center}
+\end{titlepage}
+
 \frontmatter
 \pagestyle{frontmatterstyle}
+\pagenumbering{Roman}
 \setcounter{page}{1}
 
 % ==================== 中文摘要 ====================
@@ -210,20 +258,16 @@
 % - 与下面内容单倍行距
 % - "关键词："：小四号黑体，顶格
 % - 关键词内容：小四号宋体，不加粗，单倍行距，中文分号隔开，最后无标点
-\chapter*{}
 \thispagestyle{frontmatterstyle}
-\begin{center}
-    {\heiti\zihao{-1}\thesistitle}
-    \par
-    {\heiti\zihao{3}摘~~要}
-\end{center}
+{\centering\heiti\zihao{-1}\thesistitle\par}
+{\centering\heiti\zihao{3}摘\hspace{1em}要\par}
 
 {\songti\zihao{-4}\setlength{\baselineskip}{20pt}
 \setlength{\parindent}{2em}
 \indent 这里是中文摘要内容。摘要一般在400字以内，语言力求精炼。摘要应概括地反映出本论文的主要内容，主要说明本论文的研究目的、内容、方法、成果和结论。要突出本论文的创新之处，语言力求精炼。为了便于文献检索，应在摘要下方另起一行注明论文的关键词。
 }
 
-\vspace{\baselineskip}
+\vspace{0.35\baselineskip}
 \noindent{\heiti\zihao{-4}关键词：}{\songti\zihao{-4}关键词1；关键词2；关键词3；关键词4；关键词5}
 
 \clearpage
@@ -237,20 +281,16 @@
 % - 空1行
 % - "Keywords:"：小四号Times New Roman加粗，顶格
 % - 关键词内容：小四号Times New Roman，不加粗，英文分号隔开
-\chapter*{}
 \thispagestyle{frontmatterstyle}
-\begin{center}
-    {\bfseries\zihao{-1}\thesistitleEN}
-    \par
-    {\bfseries\zihao{3}ABSTRACT}
-\end{center}
+{\centering\bfseries\zihao{-1}\thesistitleEN\par}
+{\centering\bfseries\zihao{3}ABSTRACT\par}
 
 {\zihao{-4}\setlength{\baselineskip}{20pt}
 \hspace{4ex}This is the English abstract. The content should correspond to the Chinese abstract. The abstract should be concise and generally within 400 words.
 }
 
-\vspace{\baselineskip}
-\noindent{\bfseries\zihao{-4}Keywords:} {\zihao{-4}Keyword1; Keyword2; Keyword3; Keyword4; Keyword5}
+\vspace{0.35\baselineskip}
+\noindent{\bfseries\zihao{-4}Keywords: }{\zihao{-4}Keyword1; Keyword2; Keyword3; Keyword4; Keyword5}
 
 \clearpage
 
@@ -258,14 +298,9 @@
 % 格式要求：
 % - "目录"：三号黑体居中，"目"与"录"之间两个半角空格，与下面内容空一行
 % - 目录内容：各章节标题，不超过三级，四号字体，不加粗，1.5倍行距
-\pagestyle{frontmatterstyle}
-\chapter*{}
 \thispagestyle{frontmatterstyle}
-\begin{center}
-    {\heiti\zihao{3}目~~录}
-\end{center}
-\vspace{0.5\baselineskip}  % 与下面内容空一行
-{
+{\centering\heiti\zihao{3}目\hspace{1em}录\par}
+{\zihao{4}\linespread{1.5}\selectfont
 \makeatletter
 \@starttoc{toc}
 \makeatother
@@ -275,6 +310,7 @@
 % ==================== 正文 ====================
 \mainmatter
 \pagestyle{fancy}  % 切换回正常页面样式
+\pagenumbering{arabic}
 \setcounter{page}{1}  % 正文页码从1开始（阿拉伯数字）
 
 % 设置正文统一格式：中文小四号宋体，英文小四号Times New Roman，行距固定值20磅，标准字符间距，首行缩进2字符，段前段后间距均为0行
@@ -289,7 +325,7 @@
 % 重新定义正文部分的plain样式（章节首页），使其显示正确的页眉
 \fancypagestyle{plain}{
     \fancyhf{}
-    \fancyhead[CO]{\songti\zihao{5}赣南科技学院2025届毕业论文}
+    \fancyhead[CO]{\songti\zihao{5}赣南科技学院2026届毕业论文}
     \fancyhead[CE]{\songti\zihao{5}\thesisauthor：\thesistitle}
     \fancyfoot[C]{\zihao{5}\thepage}
     \renewcommand{\headrulewidth}{0.4pt}
